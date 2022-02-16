@@ -1,0 +1,13 @@
+CREATE TABLE public.role_user
+
+(
+    idUser          character varying COLLATE pg_catalog."default" NOT NULL,
+    idRole          character varying COLLATE pg_catalog."default" NOT NULL
+
+)
+
+
+    TABLESPACE pg_default;
+
+ ALTER TABLE public.role_user
+    OWNER to postgres;

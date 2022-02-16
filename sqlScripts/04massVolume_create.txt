@@ -1,0 +1,14 @@
+CREATE TABLE public.mass_volume
+
+(
+    idMass               integer NOT NULL,
+    tonKg            integer,
+
+    CONSTRAINT mass_volume_pkey PRIMARY KEY (idMass)
+)
+
+
+    TABLESPACE pg_default;
+
+ ALTER TABLE public.mass_volume
+    OWNER to postgres;

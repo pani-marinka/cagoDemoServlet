@@ -1,0 +1,29 @@
+HEARTHSTONE game project backlog:
+
++DEV-001: Fill pom.xml - add all necessary dependencies; DONE
+
++DEV-002: Add jstl, listener, log4, exceptionHandler; In process
+
++DEV-003: Add Postgres, poolConnection; DONE
+
++DEV-004: Create user table
+           Add model mapping; Create UserService with all necessary methods DEP-003; DONE;
+
+
++DEV-005: Create registration pages - jsps, controllers and all necessary service methods; DONE;
+
++DEV-006: Create login - jsps, controllers and all necessary service methods.
+
+Extra: edit user, add data registration, add CAPTURE "I am not robot"
+
++DEV-007: Create tariff calculation - jsps, controllers and all necessary service methods.
+
++DEV-008: Create tarrif view + pagination - jsps, controllers and all necessary service methods.
+
++DEV-009: Create only authorized users to applay delivery cargo
+
++DEV-010: Create manager.jsp for only role MANAGER (setting doFilter) - confirmation delivery and vreat bill for client
+
++DEV-11: Pay bill - create from pay - jsps, controllers and all necessary service methods;
+
++DEV-12: manager create report about bill
