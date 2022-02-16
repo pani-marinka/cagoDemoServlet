@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +28,7 @@
     <input type="text" name="email" id="email" value="${email}">
     <br/>
     <br/>
-    <label for="login">Login      : &nbsp&nbsp&nbsp&nbsp&nbsp</label>
+    <label for="login">Login      : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
     <input type="text" name="login" id="login" value="${login}">
     <br/>
     <br/>

@@ -15,13 +15,13 @@ public class ValidationServiceImpl implements ValidationService {
         //String log = null;
         if (value == null || value.isEmpty()) return false;
         Pattern VALID_REGEX =
-                Pattern.compile("^([a-zA-Z])+$", Pattern.CASE_INSENSITIVE);
+                Pattern.compile("^([a-zA-Zа-яА-Я])+$", Pattern.CASE_INSENSITIVE);
         //   String regex = "^([A-Za-z]+[_]+[A-Za-z]+[0-9]+@epam.com)";
 
         Matcher matcher = VALID_REGEX.matcher(value);
         boolean result = matcher.find();
         return result;
-    }
+       }
 
 
     @Override

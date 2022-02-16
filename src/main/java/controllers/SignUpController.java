@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,16 +48,14 @@ public class SignUpController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
+        request.setAttribute("pathMain", RedirectPath.MAIN_PAGE.getValue());
         RequestCustomer customer = RequestCustomer.fromRequestParameters(request);
         customer.setAsRequestAttributes(request);
         List<String> violations = customer.validate();
-
-
         if (!violations.isEmpty()) {
             request.setAttribute("violations", violations);
-        }else{
-           request.getSession().setAttribute(AUTHENTICATED.getValue(), userService.getByLogin(customer.login));
+        } else {
+            request.getSession().setAttribute(AUTHENTICATED.getValue(), userService.getByLogin(customer.login));
         }
 
         String url = determineUrl(violations);
@@ -66,15 +65,15 @@ public class SignUpController extends HttpServlet {
 
     private String determineUrl(List<String> violations) {
         if (!violations.isEmpty()) {
-            return "/WEB-INF/views/signUp.jsp";
+            return RedirectPath.SIGNUP_PAGE.getValue(); //"/WEB-INF/views/signUp.jsp";
         } else {
 
-            return RedirectPath.FIRST_PAGE.getValue();
+            return RedirectPath.FIRST_PAGE.getValue(); //"/";
         }
     }
 
     private String determineUrl() {
-        return      RedirectPath.SIGNUP_PAGE.getValue(); // "/WEB-INF/views/signUp.jsp";
+        return RedirectPath.SIGNUP_PAGE.getValue(); // "/WEB-INF/views/signUp.jsp";
 
     }
 
@@ -91,8 +90,6 @@ public class SignUpController extends HttpServlet {
     }
 
     private static class RequestCustomer {
-        //private ValidationService validationService;
-        // validationService = (ValidationService) sc.getAttribute("validationService");
 
         private final String firstName;
         private final String lastName;
@@ -110,10 +107,11 @@ public class SignUpController extends HttpServlet {
             this.pass2 = pass2;
         }
 
-        public static RequestCustomer fromRequestParameters(HttpServletRequest request) {
-
+        public static RequestCustomer fromRequestParameters(HttpServletRequest request) throws UnsupportedEncodingException {
+            request.setCharacterEncoding("UTF-8");
 
             return new RequestCustomer(
+
                     request.getParameter("firstname"),
                     request.getParameter("lastname"),
                     request.getParameter("email"),
@@ -122,7 +120,8 @@ public class SignUpController extends HttpServlet {
                     request.getParameter("pass2"));
         }
 
-        public void setAsRequestAttributes(HttpServletRequest request) {
+        public void setAsRequestAttributes(HttpServletRequest request) throws UnsupportedEncodingException {
+            request.setCharacterEncoding("UTF-8");
             request.setAttribute("firstname", firstName);
             request.setAttribute("lastname", lastName);
             request.setAttribute("email", email);
@@ -158,7 +157,7 @@ public class SignUpController extends HttpServlet {
             }
 
             if (violations.isEmpty()) {
-                User user = userService.addNewUser(login, pass);
+                User user = userService.addNewUser(login, pass, firstName, lastName, email);   //String login, String pass, String name, String lastName, String email
                 if (user == null) {
                     violations.add("User not created. Call administrator!");
                 }

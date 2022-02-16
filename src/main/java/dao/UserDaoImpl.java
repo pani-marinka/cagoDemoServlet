@@ -50,7 +50,7 @@ public class UserDaoImpl extends ConnectionPool implements UserDAO {
             int count = 0;
             try (Connection c = getConnection(); Statement st = c.createStatement();) {
 
-                count = st.executeUpdate("INSERT INTO public.user VALUES(\'" + u.getId() + "\', \'" + u.getLogin() + "\', \'" + u.getPass()+ "\')"); //+ "\', " + u.getEmail() + ", \'" + u.getPhone() + "\'");
+                count = st.executeUpdate("INSERT INTO public.user VALUES(\'" + u.getId() + "\', \'" + u.getLogin() + "\', \'"  + u.getPass() + "\', \'" + u.getName() +  "\', \'" + u.getSurname() + "\', \'" + u.getEmail()+ "\')"); //+ "\', " + u.getEmail() + ", \'" + u.getPhone() + "\'");
             } catch (Exception e) {
                 System.out.println("Error save user;");
                 e.printStackTrace();

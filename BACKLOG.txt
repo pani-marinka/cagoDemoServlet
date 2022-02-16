@@ -2,12 +2,12 @@ HEARTHSTONE game project backlog:
 
 +DEV-001: Fill pom.xml - add all necessary dependencies; DONE
 
-+DEV-002: Add jstl, listener, log4, exceptionHandler; In process
++DEV-002: Add jstl, listener, log4, exceptionHandler, Language site EN,UKR; In process
 
 +DEV-003: Add Postgres, poolConnection; DONE
 
 +DEV-004: Create user table
-           Add model mapping; Create UserService with all necessary methods DEP-003; DONE;
+           Add model mapping; Create UserService with all necessary methods with UKR ,EN;  DONE;
 
 
 +DEV-005: Create registration pages - jsps, controllers and all necessary service methods; DONE;

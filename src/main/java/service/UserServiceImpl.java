@@ -31,11 +31,14 @@ public class UserServiceImpl implements UserService  {
 
 
     @Override
-    public User addNewUser(String login, String pass) {
+    public User addNewUser(String login, String pass, String name, String lastName, String email) {
         User u = new User.Builder()
                 .withId(UUID.randomUUID().toString())
+                .withName(name)
+                .withSurname(lastName)
                 .withLogin(login)
                 .withPass(md5Apache(pass))
+                .withEmail(email)
                 .build();
         //new User(new Random().nextInt(), login, pass, 0, null);
         return uDao.add(u) ? u : null;
