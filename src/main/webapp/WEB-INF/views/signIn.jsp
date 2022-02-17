@@ -8,7 +8,8 @@
 </head>
 <body>
 <h1>Customer Sign In</h1>
-
+<c:choose>
+<c:when test="${language.equals('0')}">
 <c:if test="${violations != null}">
     <c:forEach items="${violations}" var="violation">
         <p>${violation}.</p>
@@ -37,6 +38,7 @@
 <form action="${pageContext.request.contextPath}/signUp" method="GET">
     <input type="submit" value="SignUp">
 </form>
-
+</c:when>
+</c:choose>
 </body>
 </html>

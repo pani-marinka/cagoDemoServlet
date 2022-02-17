@@ -10,6 +10,7 @@ public class User implements Serializable {
     private String pass;
     private String email;
     private String phone;
+    private String language;
 
     public String getId() {
         return id;
@@ -67,6 +68,14 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
     public static class Builder{
         private User newUser;
 
@@ -106,6 +115,11 @@ public class User implements Serializable {
 
         public Builder withPhone(String phone){
             newUser.phone = phone;
+            return this;
+        }
+
+        public Builder withLanguage(String language){
+            newUser.language = language;
             return this;
         }
 

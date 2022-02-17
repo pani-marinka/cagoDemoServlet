@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService  {
 
 
     @Override
-    public User addNewUser(String login, String pass, String name, String lastName, String email) {
+    public User addNewUser(String login, String pass, String name, String lastName, String email, String language) {
         User u = new User.Builder()
                 .withId(UUID.randomUUID().toString())
                 .withName(name)
@@ -39,6 +39,7 @@ public class UserServiceImpl implements UserService  {
                 .withLogin(login)
                 .withPass(md5Apache(pass))
                 .withEmail(email)
+                .withLanguage(language)
                 .build();
         //new User(new Random().nextInt(), login, pass, 0, null);
         return uDao.add(u) ? u : null;
@@ -59,6 +60,16 @@ public class UserServiceImpl implements UserService  {
     }
 }
 /*
+ public City addNewCity( String name, int language ) {
+        City c = new City(
+                UUID.randomUUID().toString(),
+                //this.id = id;
+                name.toString(),
+                language);
+        return new CityDAO().add(c) ? c : null;
+    }
+
+
  public  String md5Apache(String pass){
         String md5Hex = DigestUtils.md5DigestAsHex(pass.getBytes(StandardCharsets.UTF_8));
         return md5Hex;}

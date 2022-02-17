@@ -1,13 +1,17 @@
+drop TABLE city;
+
+
 CREATE TABLE public.city
 
 (
     idCity              integer NOT NULL,
-    cityName            character varying COLLATE pg_catalog."default",
+    cityNameEN            character varying COLLATE pg_catalog."default",
+    cityNameUKR            character varying COLLATE pg_catalog."default",
     CONSTRAINT city_pkey PRIMARY KEY (idCity)
 )
 
 
     TABLESPACE pg_default;
 
- ALTER TABLE public.city
+ALTER TABLE public.city
     OWNER to postgres;

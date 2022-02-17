@@ -61,7 +61,15 @@ public class SignUpController extends HttpServlet {
         String url = determineUrl(violations);
         forwardResponse(url, request, response);
     }
+/*
+  String language = req.getParameter(RequestParameter.LANGUAGE.getValue());
+   int language1= Integer.parseInt(language);
 
+            if (cityService.checkAddCityParameters(name, language1)) {
+                req.setCharacterEncoding("UTF-8");
+                cityService.addNewCity(name ,language1);
+            }
+ */
 
     private String determineUrl(List<String> violations) {
         if (!violations.isEmpty()) {
@@ -97,14 +105,16 @@ public class SignUpController extends HttpServlet {
         private final String login;
         private final String pass;
         private final String pass2;
+        private final String language;
 
-        private RequestCustomer(String firstName, String lastName, String email, String login, String pass, String pass2) {
+        private RequestCustomer(String firstName, String lastName, String email, String login, String pass, String pass2, String language) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;
             this.login = login;
             this.pass = pass;
             this.pass2 = pass2;
+            this.language = language;
         }
 
         public static RequestCustomer fromRequestParameters(HttpServletRequest request) throws UnsupportedEncodingException {
@@ -117,7 +127,8 @@ public class SignUpController extends HttpServlet {
                     request.getParameter("email"),
                     request.getParameter("login"),
                     request.getParameter("pass"),
-                    request.getParameter("pass2"));
+                    request.getParameter("pass2"),
+                    request.getParameter("language"));
         }
 
         public void setAsRequestAttributes(HttpServletRequest request) throws UnsupportedEncodingException {
@@ -128,6 +139,7 @@ public class SignUpController extends HttpServlet {
             request.setAttribute("login", login);
             request.setAttribute("pass", pass);
             request.setAttribute("pass2", pass2);
+            request.setAttribute("language", language);
         }
 
         public List<String> validate() {
@@ -157,7 +169,7 @@ public class SignUpController extends HttpServlet {
             }
 
             if (violations.isEmpty()) {
-                User user = userService.addNewUser(login, pass, firstName, lastName, email);   //String login, String pass, String name, String lastName, String email
+                User user = userService.addNewUser(login, pass, firstName, lastName, email, language);   //String login, String pass, String name, String lastName, String email
                 if (user == null) {
                     violations.add("User not created. Call administrator!");
                 }

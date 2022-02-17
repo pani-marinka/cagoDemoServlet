@@ -3,7 +3,7 @@ package service;
 import model.User;
 
 public interface UserService {
-    public User addNewUser(String login, String pass, String name, String lastName, String email);
+    public User addNewUser(String login, String pass, String name, String lastName, String email, String language);
 
     public User getByLogin(String login);
 

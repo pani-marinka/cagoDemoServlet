@@ -52,7 +52,9 @@ public class SignInController extends HttpServlet {
         if (!violations.isEmpty()) {
             request.setAttribute("violations", violations);
         } else {
-            request.getSession().setAttribute(AUTHENTICATED.getValue(), userService.getByLogin(customer.login));
+            User user = userService.getByLogin(customer.login);
+            request.getSession().setAttribute(AUTHENTICATED.getValue(),user );
+            request.setAttribute("language", user.getLanguage());
         }
 
         String url = determineUrl(violations);
@@ -85,6 +87,7 @@ public class SignInController extends HttpServlet {
 
             request.setAttribute("login", login);
             request.setAttribute("pass", pass);
+
 
         }
 

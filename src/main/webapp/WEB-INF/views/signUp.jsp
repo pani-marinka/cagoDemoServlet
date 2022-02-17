@@ -28,7 +28,7 @@
     <input type="text" name="email" id="email" value="${email}">
     <br/>
     <br/>
-    <label for="login">Login      : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+    <label for="login">Login : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
     <input type="text" name="login" id="login" value="${login}">
     <br/>
     <br/>
@@ -41,6 +41,14 @@
     <input type="password" name="pass2" id="password2" value="${pass2}">
     <br/>
     <br/>
+    Enter your interface language:
+    <select name="language">
+        <option value="0"> EN</option>
+        <option value="1"> UKR</option>
+    </select>
+    <br/>
+    <br/>
+
     <input type="submit" name="signup" value="Sign Up">
 </form>
 <br/>
@@ -48,9 +56,6 @@
 <form action=${pathMain}  method='GET'>
     <input type='submit' value='To Main Page'>
 </form>
-
-
-
 
 </body>
 </html>

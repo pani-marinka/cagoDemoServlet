@@ -30,6 +30,7 @@ public class UserDaoImpl extends ConnectionPool implements UserDAO {
                         .withName(rs.getString("name"))
                         .withSurname(rs.getString("surname"))
                         .withEmail(rs.getString("email"))
+                        .withLanguage(String.valueOf(rs.getInt("language")))
                         .withPhone(rs.getString("phone"))
                         .build();
             } else return null;
@@ -49,8 +50,8 @@ public class UserDaoImpl extends ConnectionPool implements UserDAO {
         } else {
             int count = 0;
             try (Connection c = getConnection(); Statement st = c.createStatement();) {
-
-                count = st.executeUpdate("INSERT INTO public.user VALUES(\'" + u.getId() + "\', \'" + u.getLogin() + "\', \'"  + u.getPass() + "\', \'" + u.getName() +  "\', \'" + u.getSurname() + "\', \'" + u.getEmail()+ "\')"); //+ "\', " + u.getEmail() + ", \'" + u.getPhone() + "\'");
+                System.out.println("u.getLanguage() "+u.getLanguage());
+                count = st.executeUpdate("INSERT INTO public.user VALUES(\'" + u.getId() + "\', \'" + u.getLogin() + "\', \'"  + u.getPass() + "\', \'" + u.getName() +  "\', \'" + u.getSurname() + "\', \'" + u.getEmail()+ "\' , "+ u.getLanguage() +")"  ); //+ "\', " + u.getEmail() + ", \'" + u.getPhone() + "\'");
             } catch (Exception e) {
                 System.out.println("Error save user;");
                 e.printStackTrace();
