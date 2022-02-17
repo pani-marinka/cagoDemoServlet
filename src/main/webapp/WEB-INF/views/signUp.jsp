@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Customer Sign Up</title>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
 </head>
 <body>
 <h1>Customer Sign Up</h1>
@@ -48,7 +49,8 @@
     </select>
     <br/>
     <br/>
-
+    <div class="g-recaptcha"
+         data-sitekey="6LcZ9IMeAAAAADDLJw9oSMURo3CpB5bqFS78HFP6"></div>
     <input type="submit" name="signup" value="Sign Up">
 </form>
 <br/>

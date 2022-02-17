@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-public class UserServiceImpl implements UserService  {
+public class UserServiceImpl implements UserService {
     private static final Logger LOG = Logger.getLogger(UserServiceImpl.class.getName());
     //UserDAO uDao = DaoFactory.getInstance().getUserDao();
     private final UserDAO uDao;
@@ -19,14 +19,14 @@ public class UserServiceImpl implements UserService  {
     }
 
 
-    public User getUser(String login)  {
+    public User getUser(String login) {
         return uDao.getUserByLogin(login);
     }
 
 
     public String getByLoginStr(String login) {
-        String   u = uDao.getByLoginString(login);
-        return  u;
+        String u = uDao.getByLoginString(login);
+        return u;
     }
 
 
@@ -46,7 +46,6 @@ public class UserServiceImpl implements UserService  {
     }
 
     public String md5Apache(String pass) {
-        //String md5Hex = DigestUtils.md5DigestAsHex(pass.getBytes(StandardCharsets.UTF_8));
         String md5Hex = DigestUtils.md5Hex(pass.getBytes(StandardCharsets.UTF_8));
         return md5Hex;
     }

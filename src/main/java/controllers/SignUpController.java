@@ -4,7 +4,9 @@ package controllers;
 import enums.RedirectPath;
 import model.User;
 import service.UserService;
+import service.UserServiceImpl;
 import service.ValidationService;
+import utils.VerifyRecaptcha;
 
 
 import javax.servlet.ServletConfig;
@@ -18,11 +20,13 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static enums.SessionAttributeNew.AUTHENTICATED;
 
 @WebServlet(name = "SignUpController", urlPatterns = "/signUp")
 public class SignUpController extends HttpServlet {
+    private static final Logger LOG = Logger.getLogger(SignUpController.class.getName());
 
     private static UserService userService;
     private static ValidationService validationService;  // = ValidationServiceImpl();
@@ -61,15 +65,6 @@ public class SignUpController extends HttpServlet {
         String url = determineUrl(violations);
         forwardResponse(url, request, response);
     }
-/*
-  String language = req.getParameter(RequestParameter.LANGUAGE.getValue());
-   int language1= Integer.parseInt(language);
-
-            if (cityService.checkAddCityParameters(name, language1)) {
-                req.setCharacterEncoding("UTF-8");
-                cityService.addNewCity(name ,language1);
-            }
- */
 
     private String determineUrl(List<String> violations) {
         if (!violations.isEmpty()) {
@@ -106,8 +101,9 @@ public class SignUpController extends HttpServlet {
         private final String pass;
         private final String pass2;
         private final String language;
+        String gRecaptchaResponse ;
 
-        private RequestCustomer(String firstName, String lastName, String email, String login, String pass, String pass2, String language) {
+        private RequestCustomer(String firstName, String lastName, String email, String login, String pass, String pass2, String language, String gRecaptchaResponse) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;
@@ -115,6 +111,7 @@ public class SignUpController extends HttpServlet {
             this.pass = pass;
             this.pass2 = pass2;
             this.language = language;
+            this.gRecaptchaResponse = gRecaptchaResponse;
         }
 
         public static RequestCustomer fromRequestParameters(HttpServletRequest request) throws UnsupportedEncodingException {
@@ -128,7 +125,8 @@ public class SignUpController extends HttpServlet {
                     request.getParameter("login"),
                     request.getParameter("pass"),
                     request.getParameter("pass2"),
-                    request.getParameter("language"));
+                    request.getParameter("language"),
+                    request.getParameter("g-recaptcha-response"));
         }
 
         public void setAsRequestAttributes(HttpServletRequest request) throws UnsupportedEncodingException {
@@ -142,7 +140,7 @@ public class SignUpController extends HttpServlet {
             request.setAttribute("language", language);
         }
 
-        public List<String> validate() {
+        public List<String> validate() throws IOException {
             List<String> violations = new ArrayList<>();
             if (!validationService.stringValidate(firstName)) {
                 violations.add("First Name is mandatory");
@@ -167,6 +165,11 @@ public class SignUpController extends HttpServlet {
             if (userService.getByLoginStr(login) != null) {
                 violations.add("Such login exist! Enter other login");
             }
+
+          //  boolean result = VerifyRecaptcha.verify(gRecaptchaResponse);
+           if(!VerifyRecaptcha.verify(gRecaptchaResponse)){
+               violations.add("You missed the Captcha!");
+           }
 
             if (violations.isEmpty()) {
                 User user = userService.addNewUser(login, pass, firstName, lastName, email, language);   //String login, String pass, String name, String lastName, String email
