@@ -2,6 +2,7 @@ package service;
 
 import dao.UserDAO;
 
+import enums.LanguageInreface;
 import model.User;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User addNewUser(String login, String pass, String name, String lastName, String email, String language) {
+    public User addNewUser(String login, String pass, String name, String lastName, String email, int language) {
         User u = new User.Builder()
                 .withId(UUID.randomUUID().toString())
                 .withName(name)
@@ -52,6 +53,20 @@ public class UserServiceImpl implements UserService {
 
     public boolean checkUserPassword(User u, String pass) {
         return u != null && u.getPass().equals(md5Apache(pass));
+    }
+
+    @Override
+    public String getLocaleUser(User user) {
+        String out = LanguageInreface.en.name();
+        switch (user.getLanguage()) {
+            case 0:
+                out = LanguageInreface.en.name();
+                break;
+            case 1:
+                out = LanguageInreface.ukr.name();
+                break;
+        }
+        return out;
     }
 
     public User getByLogin(String login) {

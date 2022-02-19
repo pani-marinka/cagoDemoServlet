@@ -3,7 +3,7 @@ example  web page: https://ua.transportica.com/shipping/price/
 
 +DEV-001: Fill pom.xml - add all necessary dependencies; DONE
 
-+DEV-002: Add jstl, listener, log4, exceptionHandler, Language site EN,UKR; In progress
++DEV-002: Add jstl, listener, log4, exceptionHandler, documentaryCode , Language site EN,UKR; In progress
 
 +DEV-003: Add Postgres, poolConnection; DONE
 

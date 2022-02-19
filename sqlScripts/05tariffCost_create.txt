@@ -2,8 +2,9 @@ CREATE TABLE public.tariff_cost
 
 (
     idTariff               integer NOT NULL,
-    idDistance              integer,
-    cost                    character varying COLLATE pg_catalog."default",
+    massId                 integer,
+    idDistance             integer,
+    cost                   float,
 
     CONSTRAINT tariff_cost_pkey PRIMARY KEY (idTariff)
 )
@@ -13,3 +14,6 @@ CREATE TABLE public.tariff_cost
 
  ALTER TABLE public.tariff_cost
     OWNER to postgres;
+
+
+

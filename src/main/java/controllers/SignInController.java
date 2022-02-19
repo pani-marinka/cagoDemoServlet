@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class SignInController extends HttpServlet {
     private static UserService userService;
     private static ValidationService validationService;  // = ValidationServiceImpl();
     private ServletContext sc;
+    List<String> violations = new ArrayList<>();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -37,14 +39,13 @@ public class SignInController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("pathMain", RedirectPath.MAIN_PAGE.getValue());  // "/cargoDemoServlet_war_exploded/index.jsp");
-        forwardResponse(determineUrl(), request, response);
+        request.setAttribute("pathMain", RedirectPath.MAIN_PAGE.getValue());
+        request.getRequestDispatcher(RedirectPath.SIGNIN_PAGE.getValue()).forward(request, response);
     }
 
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         request.setAttribute("pathMain", RedirectPath.MAIN_PAGE.getValue());
         SignInController.RequestCustomer customer = SignInController.RequestCustomer.fromRequestParameters(request);
         customer.setAsRequestAttributes(request);
@@ -53,12 +54,12 @@ public class SignInController extends HttpServlet {
             request.setAttribute("violations", violations);
         } else {
             User user = userService.getByLogin(customer.login);
-            request.getSession().setAttribute(AUTHENTICATED.getValue(),user );
-            request.setAttribute("language", user.getLanguage());
+            request.getSession().setAttribute(AUTHENTICATED.getValue(), user);
+            HttpSession httpSession = request.getSession();
+            httpSession.setAttribute("login", user.getLogin());
+            httpSession.setAttribute("locale", userService.getLocaleUser(user));
         }
-
-        String url = determineUrl(violations);
-        forwardResponse(url, request, response);
+        forwardResponse(violations, request, response);
     }
 
 
@@ -117,28 +118,17 @@ public class SignInController extends HttpServlet {
         }
     }
 
-
-    private String determineUrl(List<String> violations) {
+    private void forwardResponse(List<String> violations, HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (!violations.isEmpty()) {
-            return RedirectPath.SIGNIN_PAGE.getValue(); //"/WEB-INF/views/signUp.jsp";
+            try {
+                request.getRequestDispatcher(RedirectPath.SIGNIN_PAGE.getValue()).forward(request, response);
+            } catch (ServletException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
-            return RedirectPath.FIRST_PAGE.getValue(); //"/";
-        }
-    }
-
-    private String determineUrl() {
-        return RedirectPath.SIGNIN_PAGE.getValue(); // "/WEB-INF/views/signUp.jsp";
-    }
-
-
-    private void forwardResponse(String url, HttpServletRequest request, HttpServletResponse response) {
-        try {
-            request.getRequestDispatcher(url).forward(request, response);        // resp.sendRedirect(RedirectPath.AUTH_PAGE.getValue());
-
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            response.sendRedirect(RedirectPath.TOMAIN_PAGE.getValue());
         }
     }
 }

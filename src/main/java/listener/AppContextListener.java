@@ -28,14 +28,14 @@ public class AppContextListener implements ServletContextListener, ServletContex
         ServletContext servletContext = sce.getServletContext();
         servletContext.setAttribute("userService", userService);
         servletContext.setAttribute("validationService", validationService);
-        servletContext.setAttribute("language", "0"); // En default
+    //    servletContext.setAttribute("language", "0"); // En default
        // System.out.println(sce.getServletContext().getAttribute("userService"));
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         ServletContext servletContext = sce.getServletContext();
-           servletContext.setAttribute("language", "0"); // En default
+         //  servletContext.setAttribute("language", "0"); // En default
     }
 
 }

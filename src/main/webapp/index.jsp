@@ -1,110 +1,68 @@
-<%--<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>--%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
 <head>
+    <fmt:setLocale value="${locale }"/>
+    <fmt:setBundle basename="messages"/>
     <title>Hello people</title>
+
+    <br/>
+    <table>
+        <tr>
+            <td>
+                <h1>Cargo Delivery</h1>
+            </td>
+        </tr>
+        <tr>
+            <td>
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+            <c:if test="${empty sessionScope.authenticated}">
+                <td>
+                    <form action="${pageContext.request.contextPath}/signIn" method="GET">
+                        <input type="submit" value="<fmt:message key="login"/>">
+                    </form>
+                </td>
+                <td>
+                    <form action="${pageContext.request.contextPath}/signUp" method="GET">
+                        <input type="submit" value="<fmt:message key="logup"/>">
+                    </form>
+
+                </td>
+            </c:if>
+            <c:if test="${not empty sessionScope.authenticated}">
+
+                <td>
+                    <h1><fmt:message key="greeting"/> ${login }! </h1>
+                </td>
+                <td>&nbsp;&nbsp;
+                    <form action="view" method='GET'>
+                        <input type='submit' id='bold9' class='buttonEnabled' name='logoff'
+                               value="<fmt:message key="logoff"/>"/>
+                    </form>
+                </td>
+            </c:if>
+
+
+            <td>
+                &nbsp;&nbsp;
+                <a href="setLocale?locale=ukr">UKR</a> |
+                <a href="setLocale?locale=en">EN</a>
+            </td>
+
+
+        </tr>
+    </table>
+    <%--    </fmt:bundle>--%>
+    <br/>
+    <br/>
+
 </head>
 <body>
-<table>
-    <tr>
-
-        <td>
-        <c:if test="${empty sessionScope.authenticated}">
-        <td>
-            <h1>Cargo Delivery</h1>
-        </td>
-            <c:choose>
-
-                <c:when test="${language.equals('0')}">
-                    <td>
-                        <form action="${pageContext.request.contextPath}/signIn" method="GET">
-                            <input type="submit" value="SignIn">
-                        </form>
-                    </td>
-                    <td>
-                        <form action="${pageContext.request.contextPath}/signUp" method="GET">
-                            <input type="submit" value="SignUp">
-                        </form>
-                    </td>
-                    <td>
-                    <th>
-                        <a href="${pathEdit}?adId=${ad.id}">UKR</a>
-                    <th>
-                    <th>
-                        EN
-                    </th>
-
-                    </td>
-                </c:when>
-                <c:when test="${language.equals('1')}">
-                    <td>
-                        <form action="${pageContext.request.contextPath}/signIn" method="GET">
-                            <input type="submit" value="Реєстрація">
-                        </form>
-                    </td>
-                    <td>
-                        <form action="${pageContext.request.contextPath}/signUp" method="GET">
-                            <input type="submit" value="Новий користувач">
-                        </form>
-                    </td>
-                    <td>
-                    <th>
-                        <a href="${pathEdit}?adId=${ad.id}">Анг</a>
-                    <th>
-                    <th>
-                        УКР
-                    </th>
-
-                    </td>
-                </c:when>
-
-
-            </c:choose>
-        </c:if>
-        </td>
-        <td>
-
-        <c:if test="${not empty sessionScope.authenticated}">
-        <td>
-            <h1>Cargo Delivery</h1>
-        </td>
-            <c:choose>
-                <c:when test="${language.equals('0')}">
-    <td>
-                    <form action="view" method='GET'>
-                        <input type='submit' id='bold6' class='buttonEnabled' name='logoff' value='Log off'/>
-                    </form>
-</td>
-    <td>
-       UKR
-    </td>
-                </c:when>
-                <c:when test="${language.equals('1')}">
-                    <td>
-                        <form action="view" method='GET'>
-                            <input type='submit' id='bold6' class='buttonEnabled' name='logoff'
-                                   value='Вийти з особистого кабінету'/>
-                        </form>
-                    </td>
-                    <td>UKR</td>
-                </c:when>
-            </c:choose>
-
-        </c:if>
-    </td>
-    </tr>
-</table>
-
-
-<br/>
-
-TEST VISION LANGUAGE <br/>
-<c:if test="${language == '1'}">YES 1 </c:if>
-<c:if test="${language =='0'}">YES 0 </c:if>
-<br/>
-
+<h1><fmt:message key="greeting"/>! </h1>
 
 
 </body>
