@@ -1,6 +1,9 @@
 package factorySession;
 
 
+import dao.CityDAO;
+import dao.DistanceDAO;
+import dao.TariffCostDAO;
 import dao.UserDAO;
 
 public abstract  class DaoMyFactorySession {
@@ -13,4 +16,7 @@ public abstract  class DaoMyFactorySession {
     }
 
     public abstract UserDAO getUserDao();
+    public abstract DistanceDAO getDistanceDao();
+    public abstract TariffCostDAO getTariffCostDao();
+    public abstract CityDAO getCityDao();
 }

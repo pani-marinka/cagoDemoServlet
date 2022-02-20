@@ -74,8 +74,8 @@ public class UserServiceImpl implements UserService {
     }
 }
 /*
- public City addNewCity( String name, int language ) {
-        City c = new City(
+ public String addNewCity( String name, int language ) {
+        String c = new String(
                 UUID.randomUUID().toString(),
                 //this.id = id;
                 name.toString(),
