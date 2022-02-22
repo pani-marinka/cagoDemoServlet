@@ -32,13 +32,26 @@
                     </form>
 
                 </td>
+                <td>
+                    <form action="${pageContext.request.contextPath}/calculation" method='GET'>
+                        <input type='submit' id='bold22' class='buttonEnabled'   value="<fmt:message key="calculation"/>"/>
+                    </form>
+                                 </td>
             </c:if>
             <c:if test="${not empty sessionScope.authenticated}">
-
+                <td></td>
                 <td>
-                    <h1><fmt:message key="greeting"/> ${login }! </h1>
+                    <h1><fmt:message key="greeting"/> ${login }! </h1>&nbsp;
+                    &nbsp;
                 </td>
-                <td>&nbsp;&nbsp;
+                <td>
+                <td>
+                    <form action="${pageContext.request.contextPath}/calculation" method='GET'>
+                        <input type='submit' id='bold23' class='buttonEnabled'   value="<fmt:message key="calculation"/>"/>
+                    </form>
+                </td>
+                </td>
+                <td>
                     <form action="view" method='GET'>
                         <input type='submit' id='bold8' class='buttonEnabled' name='logoff'
                                value="<fmt:message key="logoff"/>"/>
@@ -58,14 +71,16 @@
     </table>
     <%--    </fmt:bundle>--%>
     <br/>
-    <br/>
+
 
 </head>
 <body>
+<br/>
+<br/>
+<br/>
 <h1><fmt:message key="mainTableTariff"/></h1>
-
+    <br/>
 <table id="maintable2" width="80%" border="1" align="center">
-
     <tr>
         <th><fmt:message key="direction"/></th>
         <th><fmt:message key="distance"/></th>
@@ -125,7 +140,7 @@
 <form action="setType" method='GET'>
     <input type='submit' id='bold9' class='buttonEnabled' name='resetCity'
            value="<fmt:message key="resetCity"/>"/>
-    <br/>
+
     <br/>
     <h1><fmt:message key="mainTableTariffAny"/></h1>
     <table id="maintable" width="80%" border="1" align="center">
@@ -146,7 +161,7 @@
                 </table>
             </td>
             <td>
-                <table  border="1">
+                <table border="1">
                     <c:forEach items="${tariffAny}" var="tariffAnyWhere">
                         <tr>
                                 ${tariffAnyWhere.cost}&nbsp;ghr/km <br/>
@@ -158,11 +173,10 @@
     </table>
     <br/>
     <br/>
-    <form action="setType" method='GET'>
-        <input type='submit' id='bold10' class='buttonEnabled' name='calculationDelivery'
-               value="<fmt:message key="calculation"/>"/>
-        <br/>
-        <br/>
+<%--    <form action="${pageContext.request.contextPath}/calculation" method='GET'>--%>
+<%--        <input type='submit' id='bold10' class='buttonEnabled' name='calculationDelivery'--%>
+<%--               value="<fmt:message key="calculation"/>"/>--%>
 
+    <br/>
 </body>
 </html>

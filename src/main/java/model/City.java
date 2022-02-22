@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class City {
     private int idCity;
     private String cityNameEn;
@@ -54,5 +56,27 @@ public class City {
             newCity.cityNameUkr = nameCityUkr;
             return this;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        City city = (City) o;
+        return idCity == city.idCity && Objects.equals(cityNameEn, city.cityNameEn) && Objects.equals(cityNameUkr, city.cityNameUkr);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idCity, cityNameEn, cityNameUkr);
+    }
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "idCity=" + idCity +
+                ", cityNameEn='" + cityNameEn + '\'' +
+                ", cityNameUkr='" + cityNameUkr + '\'' +
+                '}';
     }
 }

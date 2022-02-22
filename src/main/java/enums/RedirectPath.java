@@ -9,7 +9,7 @@ public enum RedirectPath {
     INDEX_PAGE("index.jsp"),
     TOINDEX_PAGE("/index.jsp"),
     SIGNIN_PAGE("/WEB-INF/views/signIn.jsp"),
-    ADD_PAGE("/cargoDemoServlet_war_exploded/add"),
+    CALCULAT_PAGE("/WEB-INF/views/calculat.jsp"),
     DETAIL_PAGE("/cargoDemoServlet_war_exploded/detail");
 
     private RedirectPath(String value) {

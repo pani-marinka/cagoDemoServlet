@@ -3,6 +3,7 @@ package enums;
 public enum RequestParameter {
 
     LOGOFF("logoff"),
+    COUNT("count"),
     RESETCITY("resetCity"),
     TYPEFROM("typeFrom"),
     TYPETO("typeTo");

@@ -33,6 +33,7 @@ public class SignUpController extends HttpServlet {
     private static UserService userService;
     private static ValidationService validationService;  // = ValidationServiceImpl();
     private ServletContext sc;
+    private static String refSignUp = null;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -46,6 +47,7 @@ public class SignUpController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("pathMain", RedirectPath.MAIN_PAGE.getValue());
+        refSignUp = request.getHeader("referer");
         request.getRequestDispatcher(RedirectPath.SIGNUP_PAGE.getValue()).forward(request, response);
 
 
@@ -71,14 +73,14 @@ public class SignUpController extends HttpServlet {
         forwardResponse(violations, request, response);
     }
 
-    private String determineUrl(List<String> violations) {
-        if (!violations.isEmpty()) {
-            return RedirectPath.SIGNUP_PAGE.getValue(); //"/WEB-INF/views/signUp.jsp";
-        } else {
-
-            return RedirectPath.FIRST_PAGE.getValue(); //"/";
-        }
-    }
+//    private String determineUrl(List<String> violations) {
+//        if (!violations.isEmpty()) {
+//            return RedirectPath.SIGNUP_PAGE.getValue(); //"/WEB-INF/views/signUp.jsp";
+//        } else {
+//
+//            return RedirectPath.FIRST_PAGE.getValue(); //"/";
+//        }
+//    }
 
 
     private void forwardResponse(List<String> violations, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -91,7 +93,9 @@ public class SignUpController extends HttpServlet {
                 e.printStackTrace();
             }
         } else {
-            response.sendRedirect(RedirectPath.TOMAIN_PAGE.getValue());
+            if (refSignUp == null || refSignUp.isEmpty()) refSignUp = RedirectPath.INDEX_PAGE.getValue();
+            response.sendRedirect(refSignUp);
+          //  response.sendRedirect(RedirectPath.TOMAIN_PAGE.getValue());
         }
     }
 

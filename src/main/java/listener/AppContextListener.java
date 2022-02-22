@@ -28,8 +28,11 @@ public class AppContextListener implements ServletContextListener, ServletContex
         TariffCostDAO tariffCostDao = DaoMyFactorySession.getInstance().getTariffCostDao();
         ServiceTariffCost serviceTariffCost = new ServiceTariffCostImpl(tariffCostDao);
         RoutCostService routCostService = new RoutCostServiceImpl(distanceDao,tariffCostDao);
+        DistanceDAO distanceDAO = DaoMyFactorySession.getInstance().getDistanceDao();
+        ServiceDistanace serviceDistanace = new ServiceDistanaceImpl(distanceDAO);
         ServletContext servletContext = sce.getServletContext();
         servletContext.setAttribute("userService", userService);
+        servletContext.setAttribute("serviceDistanace", serviceDistanace);
         servletContext.setAttribute("validationService", validationService);
         servletContext.setAttribute("routCostService", routCostService);
         servletContext.setAttribute("routsCost",routCostService.getAllRoutCosts());

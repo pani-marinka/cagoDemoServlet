@@ -2,7 +2,9 @@ package controllers;
 
 
 import enums.RedirectPath;
+import enums.RequestParameter;
 import model.User;
+import service.ServiceDistanace;
 import service.UserService;
 import service.ValidationService;
 
@@ -21,19 +23,21 @@ import java.util.List;
 
 import static enums.SessionAttributeNew.AUTHENTICATED;
 
-@WebServlet(name = "SignInController", urlPatterns = "/signIn")
-public class SignInController extends HttpServlet {
+//@WebServlet(name = "SignInController", urlPatterns = "/signIn")
+@WebServlet(name = "CalculationController", urlPatterns = "/calculation")
+public class CalculationController extends HttpServlet {
 
     private static UserService userService;
+    public static ServiceDistanace serviceDistanace;
     private static ValidationService validationService;  // = ValidationServiceImpl();
     private ServletContext sc;
     List<String> violations = new ArrayList<>();
-    private static String refSignIn = null;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         sc = config.getServletContext();
         userService = (UserService) sc.getAttribute("userService");
+        serviceDistanace = (ServiceDistanace) sc.getAttribute("serviceDistanace");
         validationService = (ValidationService) sc.getAttribute("validationService");
         // sc.setAttribute("users", new ArrayList<>());
     }
@@ -41,21 +45,45 @@ public class SignInController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("pathMain", RedirectPath.MAIN_PAGE.getValue());
-        refSignIn = request.getHeader("referer");
-        request.getRequestDispatcher(RedirectPath.SIGNIN_PAGE.getValue()).forward(request, response);
+        request.setAttribute("cityTo",
+                serviceDistanace.getCitiesRouters());
+        request.setAttribute("cityFrom",
+                serviceDistanace.getCitiesRouters());
+        HttpSession httpSession = request.getSession();
+        if (request.getParameter(RequestParameter.COUNT.getValue()) != null) {
+            CalculationController.RequestCustomer customer = CalculationController.RequestCustomer.fromRequestParameters(request);
+            customer.setAsRequestAttributes(request);
+            List<String> violations = customer.validate();
+            if (!violations.isEmpty()) {
+                request.setAttribute("violations", violations);
+            } else {
+                //User user = userService.getByLogin(customer.wide);
+             //   request.getSession().setAttribute(AUTHENTICATED.getValue(), user);
+                //HttpSession httpSession = request.getSession();
+                //httpSession.setAttribute("login", user.getLogin());
+               // httpSession.setAttribute("locale", servicerDistance.);
+            }
+
+
+        }
+
+
+        request.getRequestDispatcher("/WEB-INF/views/calculation.jsp").forward(request, response);
+        //request.getRequestDispatcher(RedirectPath.CALCULAT_PAGE.getValue()).forward(request, response);
+        // request.getRequestDispatcher(RedirectPath.CALCULATION_PAGE.getValue()).forward(request, response);
     }
 
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("pathMain", RedirectPath.MAIN_PAGE.getValue());
-        SignInController.RequestCustomer customer = SignInController.RequestCustomer.fromRequestParameters(request);
+        CalculationController.RequestCustomer customer = CalculationController.RequestCustomer.fromRequestParameters(request);
         customer.setAsRequestAttributes(request);
         List<String> violations = customer.validate();
         if (!violations.isEmpty()) {
             request.setAttribute("violations", violations);
         } else {
-            User user = userService.getByLogin(customer.login);
+            User user = userService.getByLogin(customer.wide);
             request.getSession().setAttribute(AUTHENTICATED.getValue(), user);
             HttpSession httpSession = request.getSession();
             httpSession.setAttribute("login", user.getLogin());
@@ -67,29 +95,37 @@ public class SignInController extends HttpServlet {
 
     private static class RequestCustomer {
 
-        private final String login;
-        private final String pass;
+        private final String hight;
+        private final String wide;
+        private final String place;
+        private final String lenght;
 
-        private RequestCustomer(String login, String pass) {
-            this.login = login;
-            this.pass = pass;
 
+        public RequestCustomer(String hight, String wide, String place, String lenght) {
+            this.hight = hight;
+            this.wide = wide;
+            this.place = place;
+            this.lenght = lenght;
         }
 
-        public static SignInController.RequestCustomer fromRequestParameters(HttpServletRequest request) throws UnsupportedEncodingException {
+        public static CalculationController.RequestCustomer fromRequestParameters(HttpServletRequest request) throws UnsupportedEncodingException {
             request.setCharacterEncoding("UTF-8");
 
-            return new SignInController.RequestCustomer(
+            return new CalculationController.RequestCustomer(
 
-                    request.getParameter("login"),
-                    request.getParameter("pass"));
+                    request.getParameter("hight"),
+                    request.getParameter("wide"),
+                    request.getParameter("place"),
+                    request.getParameter("lenght"));
         }
 
         public void setAsRequestAttributes(HttpServletRequest request) throws UnsupportedEncodingException {
             request.setCharacterEncoding("UTF-8");
 
-            request.setAttribute("login", login);
-            request.setAttribute("pass", pass);
+            request.setAttribute("hight", hight);
+            request.setAttribute("wide", wide);
+            request.setAttribute("lenght", lenght);
+            request.setAttribute("place", place);
 
 
         }
@@ -98,20 +134,20 @@ public class SignInController extends HttpServlet {
             List<String> violations = new ArrayList<>();
 
 
-            if (!validationService.loginValidate(login)) {
+            if (!validationService.loginValidate(hight)) {
                 violations.add("Login is not correct! Only letters and numbers");
             }
 
-            if (pass == null || pass.isEmpty()) {
+            if (hight == null || wide.isEmpty()) {
                 violations.add("Password not null");
             }
 
-            if (userService.getByLoginStr(login) == null) {
+            if (userService.getByLoginStr(wide) == null) {
                 violations.add("Such login does not exist! Enter other login or register");
             }
 
             if (violations.isEmpty()) {
-                boolean checkPass = userService.checkUserPassword(userService.getByLogin(login), pass);
+                boolean checkPass = userService.checkUserPassword(userService.getByLogin(wide), lenght);
                 if (!checkPass) {
                     violations.add("Password not correct");
                 }
@@ -130,9 +166,7 @@ public class SignInController extends HttpServlet {
                 e.printStackTrace();
             }
         } else {
-                 if (refSignIn == null || refSignIn.isEmpty()) refSignIn = RedirectPath.INDEX_PAGE.getValue();
-            response.sendRedirect(refSignIn);
-           //response.sendRedirect(RedirectPath.TOMAIN_PAGE.getValue());
+            response.sendRedirect(RedirectPath.TOMAIN_PAGE.getValue());
         }
     }
 }

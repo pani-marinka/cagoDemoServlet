@@ -6,9 +6,7 @@ import factorySession.DaoMyFactorySession;
 import model.City;
 import model.Distance;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class ServiceDistanaceImpl implements ServiceDistanace {
@@ -40,8 +38,26 @@ public class ServiceDistanaceImpl implements ServiceDistanace {
             distance.setCityToNameUkr(cityTo.getCityNameUkr());
             //  System.out.println("CityFromOneDistance " + distance.getCityFromNameEn());
         }
-
         return out;
+    }
+
+    @Override
+    public Set<City> getCitiesRouters() {
+        ArrayList<Distance> distances = (ArrayList<Distance>) getAllDistance();
+        Set<Integer> idCities = new HashSet<>();
+        Set<City> citiesForDelivery = new HashSet<>();
+        distances.stream().forEach(i -> citiesForDelivery.add(new City.Builder()
+                .withId(i.getCityFromId())
+                .withNameCityEn(i.getCityFromNameEn())
+                .withNameCityUkr(i.getCityFromNameUkr())
+                .build()));
+        distances.stream().forEach(i -> citiesForDelivery.add(new City.Builder()
+                .withId(i.getCityToId())
+                .withNameCityEn(i.getCityToNameEn())
+                .withNameCityUkr(i.getCityToNameUkr())
+                .build()));
+        System.out.println("citiesForDelivery " + citiesForDelivery);
+        return citiesForDelivery;
     }
 
     @Override
